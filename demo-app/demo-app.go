@@ -24,7 +24,7 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 
 	value := r.URL.Query().Get("message")
 
-	values, _ := read("values")
+	values, _ := read(STATE_STORE_NAME, "values")
 
 	if values.Values == nil || len(values.Values) == 0 {
 		values.Values = []string{value}

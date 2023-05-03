@@ -13,11 +13,7 @@ RUN chmod +x /home/gitpod/kubectl/bin/kubectl
 ENV PATH $PATH:/home/gitpod/kubectl/bin
 
 # gcloud
-RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-320.0.0-linux-x86_64.tar.gz
-RUN tar -xzvf google-cloud-sdk-320.0.0-linux-x86_64.tar.gz -C /home/gitpod/
-RUN rm google-cloud-sdk-320.0.0-linux-x86_64.tar.gz
-ENV PATH $PATH:/home/gitpod/google-cloud-sdk/bin/
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-cli && apt-get install google-cloud-sdk-gke-gcloud-auth-plugin -y
 
 RUN brew install ko
 RUN wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
-RUN alias k=kubectl
