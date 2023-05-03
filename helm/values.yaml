@@ -1,0 +1,3 @@
+inVcluster: false
+redisHost: "redis-master"
+minScale: "1"
