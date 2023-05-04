@@ -1,12 +1,12 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: rejekts-app
+  name: proto-app
 spec:
   template:
     metadata:
       annotations:  
-        dapr.io/app-id: demo-app
+        dapr.io/app-id: proto-app
         dapr.io/app-port: "8080"
         dapr.io/enabled: "true" 
         dapr.io/metrics-port: "9092"
@@ -17,7 +17,7 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: salaboy/demo-app
+        - image: docker.io/salaboy/protoapp-69b67f0e9bec1eaf9dcf736d18bc0e81@sha256:6ef0aeaf37bdba0e49af7edd7be32f3ee394434249d49b4f78bb65a8c7c03e00
           name: user-container
           livenessProbe:
             httpGet:
