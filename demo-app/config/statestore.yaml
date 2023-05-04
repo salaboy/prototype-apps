@@ -8,7 +8,7 @@ spec:
   version: v1
   metadata:
   - name: keyPrefix
-    value: name
+    value: app-id
   # These settings will work out of the box if you use `helm install
   # bitnami/redis`.  If you have your own setup, replace
   # `redis-master:6379` with your own Redis master address, and the
