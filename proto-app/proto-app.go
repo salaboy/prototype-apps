@@ -77,7 +77,7 @@ func main() {
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(os.Getenv("KO_DATA_PATH"))))
 	http.Handle("/", r)
 
-	log.Printf("Rejekts Frontend App Started in port 8080!")
+	log.Printf("Platform Proto Frontend App Started in port 8080!")
 	// Start the server; this is a blocking call
 	log.Fatal(http.ListenAndServe(":"+appPort, nil))
 

@@ -1,4 +1,4 @@
-module github.com/salaboy/prototype-apps/demo-app
+module github.com/salaboy/prototype-apps/proto-app
 
 go 1.19
 
