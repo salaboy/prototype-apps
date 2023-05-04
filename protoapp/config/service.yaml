@@ -13,7 +13,7 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: ko://github.com/salaboy/prototype-apps/proto-app
+        - image: ko://github.com/salaboy/prototype-apps/protoapp
           name: user-container
           livenessProbe:
             httpGet:
