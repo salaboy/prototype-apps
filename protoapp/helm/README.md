@@ -7,4 +7,4 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install redis bitnami/redis --set architecture=standalone
 ```
 
-For more info check: [https://github.com/salaboy/rejekts-eu-2023](https://github.com/salaboy/rejekts-eu-2023)
+For more info check: [https://www.salaboy.com](https://www.salaboy.com)
