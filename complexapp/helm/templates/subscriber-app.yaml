@@ -17,8 +17,7 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: docker.io/salaboy/subscriber-089df1234caea977a45badc3065470d6@sha256:a76450543422521652cdbd1b5ad3a7075c35c747790c99a7e58eed5d2828028e
-
+        - image: docker.io/salaboy/subscriber-089df1234caea977a45badc3065470d6@sha256:d8e0daf8e97de847320a00b3b9514c284d1b0bbe4b5c87ddf00cffc6898f29a8
           name: user-container
           livenessProbe:
             httpGet:

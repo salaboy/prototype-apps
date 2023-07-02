@@ -18,8 +18,8 @@ spec:
         - image: ko://github.com/salaboy/prototype-apps/complexapp/read-values
           name: user-container
           env: 
-          - name: STATE_STORE_NAME
-            value: statestore
+          - name: STATESTORE_NAME
+            value: statestore  
           livenessProbe:
             httpGet:
               path: /health/readiness

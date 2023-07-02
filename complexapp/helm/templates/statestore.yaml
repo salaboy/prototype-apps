@@ -15,7 +15,7 @@ spec:
   # see https://docs.dapr.io/operations/components/component-secrets .
   - name: redisHost
     value: {{ .Values.redisHost }}:6379
-{{ if .Values.inVcluster }}
+{{ if .Values.sharedInfra }}
   - name: redisPassword
     value: {{ .Values.redisPassword }}
 {{ else }}    

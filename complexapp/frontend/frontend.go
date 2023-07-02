@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"io"
 	"log"
@@ -9,6 +10,8 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	flagd "github.com/open-feature/go-sdk-contrib/providers/flagd/pkg"
+	"github.com/open-feature/go-sdk/pkg/openfeature"
 )
 
 type MyValues struct {
@@ -94,6 +97,13 @@ func subscriptionsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+func featureFlagCheckHandler(w http.ResponseWriter, r *http.Request) {
+	client := openfeature.NewClient("app")
+	value, _ := client.StringValue(
+		context.Background(), "myStringFlag", "false", openfeature.EvaluationContext{},
+	)
+	respondWithJSON(w, http.StatusOK, value)
+}
 
 func readHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -134,6 +144,12 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 }
 
 func main() {
+
+	openfeature.SetProvider(flagd.NewProvider(
+		flagd.WithHost("flagd"),
+		flagd.WithPort(8013),
+	))
+
 	appPort := os.Getenv("APP_PORT")
 	if appPort == "" {
 		appPort = "8080"
@@ -143,6 +159,7 @@ func main() {
 
 	// Dapr subscription routes orders topic to this route
 
+	r.HandleFunc("/feature", featureFlagCheckHandler).Methods("GET")
 	r.HandleFunc("/write", writeHandler).Methods("POST")
 	r.HandleFunc("/delete", deleteHandler).Methods("POST")
 	r.HandleFunc("/read", readHandler).Methods("GET")
@@ -156,7 +173,7 @@ func main() {
 	r.PathPrefix("/").Handler(http.FileServer(http.Dir(os.Getenv("KO_DATA_PATH"))))
 	http.Handle("/", r)
 
-	log.Printf("Dapr+Wazero Frontend App Started in port 8080!")
+	log.Printf("Frontend App Started in port 8080!")
 	// Start the server; this is a blocking call
 	log.Fatal(http.ListenAndServe(":"+appPort, nil))
 

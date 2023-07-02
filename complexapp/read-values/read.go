@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -12,8 +13,8 @@ import (
 )
 
 var (
-	STATE_STORE_NAME = "statestore"
-	daprClient       dapr.Client
+	STATESTORE_NAME = getEnv("STATESTORE_NAME", "statestore")
+	TENANT_ID       = getEnv("TENANT_ID", "tenant-a")
 )
 
 type MyValues struct {
@@ -27,7 +28,7 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	result, err := daprClient.GetState(ctx, STATE_STORE_NAME, "values", nil)
+	result, err := daprClient.GetState(ctx, STATESTORE_NAME, fmt.Sprintf("%s-%s", TENANT_ID, "values"), nil)
 	if err != nil {
 		panic(err)
 	}
@@ -67,4 +68,13 @@ func main() {
 	if err != http.ErrServerClosed {
 		log.Panic(err)
 	}
+}
+
+// getEnv returns the value of an environment variable, or a fallback value if
+func getEnv(key, fallback string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		value = fallback
+	}
+	return value
 }

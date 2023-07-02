@@ -18,7 +18,7 @@ spec:
         - image: ko://github.com/salaboy/prototype-apps/complexapp/write-values
           name: user-container
           env: 
-          - name: STATE_STORE_NAME
+          - name: STATESTORE_NAME
             value: statestore
           livenessProbe:
             httpGet:

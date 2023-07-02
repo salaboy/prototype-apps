@@ -3,7 +3,7 @@ kind: Subscription
 metadata:
   name: notifications-subscritpion
 spec:
-  topic: notifications 
+  topic: tenant-a-notifications 
   route: /notifications
   pubsubname: notifications-pubsub
 scopes: 

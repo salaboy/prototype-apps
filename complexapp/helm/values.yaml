@@ -1,3 +1,4 @@
 inVcluster: false
-redisHost: "redis-master"
+sharedInfra: false
+redisHost: "redis-master.default.svc.cluster.local"
 minScale: "1"

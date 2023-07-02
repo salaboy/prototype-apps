@@ -13,11 +13,10 @@ import (
 )
 
 var (
-	STATE_STORE_NAME = "statestore"
-	daprClient       dapr.Client
-
-	PUB_SUB_NAME  = "notifications-pubsub"
-	PUB_SUB_TOPIC = "notifications"
+	STATESTORE_NAME = getEnv("STATESTORE_NAME", "statestore")
+	TENANT_ID       = getEnv("TENANT_ID", "tenant-a")
+	PUB_SUB_NAME    = getEnv("PUB_SUB_NAME", "notifications-pubsub")
+	PUB_SUB_TOPIC   = getEnv("PUB_SUB_TOPIC", "notifications")
 )
 
 type MyValues struct {
@@ -30,7 +29,7 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	if err := daprClient.DeleteState(ctx, STATE_STORE_NAME, "values", nil); err != nil {
+	if err := daprClient.DeleteState(ctx, STATESTORE_NAME, fmt.Sprintf("%s-%s", TENANT_ID, "values"), nil); err != nil {
 		panic(err)
 	}
 
@@ -45,7 +44,7 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 
 	value := r.URL.Query().Get("message")
 
-	result, _ := daprClient.GetState(ctx, STATE_STORE_NAME, "values", nil)
+	result, _ := daprClient.GetState(ctx, STATESTORE_NAME, fmt.Sprintf("%s-%s", TENANT_ID, "values"), nil)
 	myValues := MyValues{}
 	if result.Value != nil {
 		json.Unmarshal(result.Value, &myValues)
@@ -59,7 +58,7 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 
 	jsonData, err := json.Marshal(myValues)
 
-	err = daprClient.SaveState(ctx, STATE_STORE_NAME, "values", jsonData, nil)
+	err = daprClient.SaveState(ctx, STATESTORE_NAME, fmt.Sprintf("%s-%s", TENANT_ID, "values"), jsonData, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -103,4 +102,13 @@ func main() {
 	if err != http.ErrServerClosed {
 		log.Panic(err)
 	}
+}
+
+// getEnv returns the value of an environment variable, or a fallback value if
+func getEnv(key, fallback string) string {
+	value, exists := os.LookupEnv(key)
+	if !exists {
+		value = fallback
+	}
+	return value
 }

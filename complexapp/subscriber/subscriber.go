@@ -9,18 +9,11 @@ import (
 
 	"fmt"
 
-	"github.com/dapr/go-sdk/service/common"
 	"github.com/gorilla/mux"
 )
 
 type Result struct {
 	Data string `json:"data"`
-}
-
-var sub = &common.Subscription{
-	PubsubName: "notifications-pubsub",
-	Topic:      "notifications",
-	Route:      "/notifications",
 }
 
 var notifications []string

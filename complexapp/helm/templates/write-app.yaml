@@ -17,11 +17,15 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: docker.io/salaboy/write-values-bbf0e73c38257c6528fd36ab9b562bf8@sha256:7c843b439c7d94eaeb85624a69fea999ef7d3f2d14ca17f9fa9b7f326a52132f
+        - image: docker.io/salaboy/write-values-bbf0e73c38257c6528fd36ab9b562bf8@sha256:393338dec76d81a88ec028340051815d64d5cc59f9ee3fc7b0111c642ce745e9
           name: user-container
           env: 
-          - name: STATE_STORE_NAME
+          - name: STATESTORE_NAME
             value: statestore
+          - name: TENANT_ID
+            value: {{ .Release.Name }}  
+          - name: PUB_SUB_TOPIC
+            value: "{{ .Release.Name }}-notifications"  
           livenessProbe:
             httpGet:
               path: /health/readiness

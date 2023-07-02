@@ -17,11 +17,13 @@ spec:
     spec:
       containerConcurrency: 0
       containers:
-        - image: docker.io/salaboy/read-values-29641880cfce629a7bb375adac757e79@sha256:f11255260ad9d9593b97d513ba6e9e6526bff705be0932db23048fa002f5613a
+        - image: docker.io/salaboy/read-values-29641880cfce629a7bb375adac757e79@sha256:905e399701bb5775ff5cb643c7cd8a16fdc1f4a16ab355f6aa04563092515ed8
           name: user-container
           env: 
-          - name: STATE_STORE_NAME
+          - name: STATESTORE_NAME
             value: statestore
+          - name: TENANT_ID
+            value: {{ .Release.Name }}  
           livenessProbe:
             httpGet:
               path: /health/readiness
